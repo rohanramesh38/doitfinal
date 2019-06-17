@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SelectLocation">
+<LinearLayout
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:typeface="serif"
+        android:id="@+id/locfin"
+        android:text="Finding Your location.."
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        />
+<Button
+    android:layout_width="150dp"
+    android:gravity="center"
+    android:textColor="#fff"
+    android:textAllCaps="false"
+    android:id="@+id/npage"
+    android:text="Continue"
+    android:background="@color/colorPrimary"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:text="Not Found?"
+        android:id="@+id/notf"
+        android:gravity="top|center_horizontal"
+        android:textColor="#3F33FF"
+
+        />
+
+
+
+</LinearLayout>
+
+</RelativeLayout>

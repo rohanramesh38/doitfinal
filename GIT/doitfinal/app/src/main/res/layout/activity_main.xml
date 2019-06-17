@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10.6"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/imageButton"
+        android:layout_weight="1.5"
+        android:layout_gravity="center"
+        android:src="@drawable/dimage"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="DOIT"
+        android:gravity="center|center_horizontal"
+        android:textSize="28sp"
+        android:typeface="serif"
+        android:textColor="#000"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".75"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:text="Mail Id"
+        android:gravity="center_vertical"
+        android:typeface="serif"
+        android:layout_marginLeft="18dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.80"
+        android:id="@+id/username"
+        android:background="@drawable/background"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:inputType="textCapWords"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:text="Password"
+        android:typeface="serif"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="18dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.80"
+        android:id="@+id/password"
+        android:background="@drawable/background"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:inputType="textPassword"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        />
+
+    <Button
+
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:text="Login"
+        android:id="@+id/loginbutton"
+        android:layout_gravity="center"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:layout_width="150dp"
+        android:background="@color/colorPrimary"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:text="New User?"
+        android:id="@+id/newUser"
+        android:gravity="top|center_horizontal"
+        android:textColor="#3F33FF"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".25"/>
+
+</LinearLayout>
