@@ -8,10 +8,9 @@
     tools:context=".SecondFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text= "hello_blank_fragment 2" />
+ <ScrollView
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
 
 
     <RelativeLayout
@@ -74,7 +73,8 @@
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:id="@+id/cert"
-                android:background="#FFAE42"
+                android:layout_marginBottom="30dp"
+                android:background="#ffd11a"
                 android:text="Certification"/>
 
         </LinearLayout>
@@ -90,6 +90,6 @@
             />
     </RelativeLayout>
 
-
+ </ScrollView>
 
 </FrameLayout>

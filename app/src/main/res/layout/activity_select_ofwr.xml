@@ -7,8 +7,53 @@
     android:orientation="vertical"
     android:background="@drawable/roundcorner"
     tools:context=".SelectOFWRActivity"
-    android:weightSum="2">
+    >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Domain/testclient"
+            android:gravity="center"
+            android:layout_gravity="center"
+
+            ></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Domain"
+            android:gravity="center"
+            android:layout_gravity="center"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+
+    </LinearLayout>
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical"
+    android:weightSum="2">
 
     <LinearLayout
         android:layout_weight="1"
@@ -19,10 +64,10 @@
       >
 
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="15dp"
+            android:layout_weight="1"
             android:background="#fff"
             android:orientation="vertical">
 
@@ -30,29 +75,29 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/onlinefin"
-                android:layout_gravity="center"/>
+                android:src="@drawable/onlinefin" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="15dp"
-                android:text=" Classes are taught to students via Internet or in an online learning environment."
                 android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text=" Access your classes anywhere anytime."
                 android:textAlignment="center"
-               />
+                android:textSize="15dp" />
 
             <Button
+                android:id="@+id/online"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="#FFAE42"
                 android:layout_gravity="center"
-                android:textColor="#fff"
-                android:id="@+id/online"
-                android:text="Apply"/>
+                android:layout_marginTop="20dp"
+                android:background="#ffd11a"
+                android:text="Apply"
+                android:textColor="#fff" />
 
         </LinearLayout>
 
@@ -78,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Regular course refers  is a full time course as opposed to a part time or a distance program"
+                android:text="  Regular classroom course during weekdays fulltime"
                 android:textSize="15dp"
                 android:layout_marginTop="10dp"
                 />
@@ -87,7 +132,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="#FFAE42"
+                android:background="#ffd11a"
                 android:textColor="#fff"
                 android:text="Apply"
                 android:id="@+id/reglar"
@@ -130,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Classes are taught during Saturday's and Sunday's, on time for leisure."
+                android:text="  Tailored for working professionals. "
                 android:textSize="15dp"
                 android:layout_marginTop="10dp"
               />
@@ -139,7 +184,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="#FFAE42"
+                android:background="#ffd11a"
                 android:layout_gravity="center"
                 android:textColor="#fff"
                 android:id="@+id/week"
@@ -155,7 +200,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fff"
-
             android:layout_margin="15dp">
 
             <ImageView
@@ -169,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Fast-track courses are especially designed for learner's who already has experience"
+                android:text="  If you have experience in the subject and looking for a crash course"
                 android:textSize="15dp"
                 android:layout_marginTop="10dp" />
 
@@ -177,7 +221,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="#FFAE42"
+                android:background="#ffd11a"
                 android:layout_gravity="center"
                 android:textColor="#fff"
                 android:id="@+id/fast"
@@ -186,4 +230,6 @@
 
         </LinearLayout>
     </LinearLayout>
+</LinearLayout>
+
 </LinearLayout>

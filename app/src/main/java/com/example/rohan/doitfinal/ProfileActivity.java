@@ -1,6 +1,8 @@
 package com.example.rohan.doitfinal;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,16 +38,19 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileActivity extends AppCompatActivity {
     private static final int PICK_PHOTO_FOR_AVATAR = 10;
     int lo = 0, m = 0;
 
-    DatabaseReference databaseReference,dbrefim;
-    EditText tname, tpass, temail, tdob, tadd, tdept;
-    String sname, spass, smail, sdob, sadd, sdept, simg;
-    Button bt;
+   private DatabaseReference databaseReference,dbrefim;
+    private EditText Etname, Etphone, Etdob, Etadd, Etdept;
+    private TextView Temail;
+    private String Name="",Phone="",Dept="",DOB="",Email="",Photo="",Id="",Address="",simg="";
+   private Button btsave;
     private Uri mImageUri;
-    ImageView imgprofile;
+    CircleImageView imgprofile;
     Uri imaguri;
     public static final int PICK_IMAGE = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -54,15 +60,34 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        smail=getIntent().getStringExtra("mailid");
 
-        temail = findViewById(R.id.maill);
-        tname = findViewById(R.id.ususr);
-        tpass = findViewById(R.id.pswrdd);
-        tdob = findViewById(R.id.dob);
-        tadd = findViewById(R.id.home);
-        tdept = findViewById(R.id.depts);
+        Temail = findViewById(R.id.mail);
+        Etname = findViewById(R.id.name);
+        Etphone = findViewById(R.id.phone);
+        Etdob = findViewById(R.id.dob);
+        Etadd = findViewById(R.id.home);
+        Etdept = findViewById(R.id.depts);
         imgprofile = findViewById(R.id.profilepic);
+
+
+        if(fetchdata())
+        {
+            Temail.setText(Email);
+            Etphone.setText(Phone);
+            Etadd.setText(Address);
+            Etdob.setText(DOB);
+            Etdept.setText(Dept);
+            Etname.setText(Name);
+            Log.v("firbserdoit",Photo);
+            Picasso.get()
+                    .load(Photo)
+                    .placeholder(R.drawable.imageforpicasso)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .into(imgprofile);
+
+
+        }
+
 
         imgprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,101 +102,93 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-        bt = findViewById(R.id.butsave);
-       // smail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        temail.setText(smail);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Students").child(smail.replace(".", "_"));
-        dbrefim=FirebaseDatabase.getInstance().getReference().child("Students").child(smail.replace(".", "_"));
+        btsave = findViewById(R.id.butsave);
 
-        String s = smail.replace("@", "%40");
-        s = s.replace(".", "_");
-        simg = "https://firebasestorage.googleapis.com/v0/b/doitfinal.appspot.com/o/maggie.jpeg?alt=media&token=7ad2a292-7c75-4bc9-9e84-811b58e10b5e";
-        simg = simg.replace("maggie", s).trim();
-
-        // dbrefim.child("profilepic").setValue(" ");
-        databaseReference.child("profilepic").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              //  Picasso.get().load(dataSnapshot.getValue().toString()).into(imgprofile);
-
-                Picasso.get()
-                        .load(dataSnapshot.getValue().toString().trim())
-                        .placeholder(R.drawable.blankpo)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                        .into(imgprofile);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Students").child(Id);
 
 
-        bt.setOnClickListener(new View.OnClickListener() {
+        btsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                setdetails();
-
-            }
-        });
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-      //  smail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-      smail=getIntent().getStringExtra("mailid");
-        smail=getIntent().getStringExtra("mailid");
-
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Students").child(smail.replace(".", "_"));
-        lo = 0;
-
-
-
-//Picasso.get().load(simg).into(imgprofile);
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-
-                    Log.v("val", dataSnapshot1.getValue().toString());
-
-
-                    if (lo == 0) {
-                        tadd.setText(dataSnapshot1.getValue().toString());
-                    } else if (lo == 1) {
-                        tdob.setText(dataSnapshot1.getValue().toString());
-                    } else if (lo == 2) {
-                        tdept.setText(dataSnapshot1.getValue().toString());
-                    } else if (lo == 3) {
-                        temail.setText(dataSnapshot1.getValue().toString());
-                    } else if (lo == 4) {
-                        tname.setText(dataSnapshot1.getValue().toString());
-                    } else if (lo == 5) {
-                        tpass.setText(dataSnapshot1.getValue().toString());
-                    }
-
-
-                    lo++;
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+if(detailsnotempty())
+                setdetails( Name,Phone,Address,DOB,Dept,Photo);
 
             }
         });
 
     }
 
+    private boolean detailsnotempty() {
+
+
+
+       Phone=Etphone.getText().toString().trim();
+       if(TextUtils.isEmpty(Phone) && Phone.length()==10){
+           Etphone.setError("enter your mobile number");
+           return false;
+       }
+
+       Address=  Etadd.getText().toString().trim();
+        if(TextUtils.isEmpty(Address)){
+            Etadd.setError("enter your Address");
+            return false;
+        }
+
+       DOB= Etdob.getText().toString().trim();
+        if(TextUtils.isEmpty(DOB)){
+            Etdob.setError("enter your mobile Date of birth");
+            return false;
+        }
+
+       Dept= Etdept.getText().toString().trim();
+        if(TextUtils.isEmpty(Dept)){
+            Etdept.setError("enter your Dept");
+            return false;
+        }
+
+       Name= Etname.getText().toString().trim();
+        if(TextUtils.isEmpty(Name)){
+            Etname.setError("enter your Name");
+            return false;
+        }
+
+
+
+
+        return true;
+    }
+
+    private boolean fetchdata() {
+
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("com.doit.PRIVATEDATA", Context.MODE_PRIVATE);
+        if(sp.contains("id")) {
+
+
+            Id=sp.getString("id","");
+            Name=sp.getString("name","");
+            Phone=sp.getString("phonenumber","");
+            Email=sp.getString("email","");
+            Address=sp.getString("address","");
+
+            String s = Email.replace("@", "%40");
+            s = s.replace(".", "_");
+            Photo = "https://firebasestorage.googleapis.com/v0/b/doitfinal.appspot.com/o/maggie.jpeg?alt=media&token=7ad2a292-7c75-4bc9-9e84-811b58e10b5e";
+            Photo = Photo.replace("maggie", s).trim();
+            Photo=sp.getString("photo",Photo);
+            DOB=sp.getString("dob","");
+            Dept=sp.getString("dept","");
+
+
+        }
+
+
+
+
+
+
+
+        return true;}
 
 
     @Override
@@ -184,7 +201,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             Picasso.get()
                     .load(imaguri)
-                    .placeholder(R.drawable.blankpo)
+                    .placeholder(R.drawable.imageforpicasso)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .into(imgprofile);
 
@@ -194,18 +211,15 @@ public class ProfileActivity extends AppCompatActivity {
                 ImageView imageView = (ImageView) findViewById(R.id.profilepic);
                 imageView.setImageBitmap(bitmap);
 
-                StorageReference mountainsRef = FirebaseStorage.getInstance().getReference(smail.replace(".", "_") + ".jpg");
+                StorageReference mountainsRef = FirebaseStorage.getInstance().getReference(Id+ ".jpg");
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] dataa = baos.toByteArray();
 
-                String s = smail.replace("@", "%40");
+                String s = Email.replace("@", "%40");
                 s = s.replace(".", "_");
-                simg = "https://firebasestorage.googleapis.com/v0/b/doitfinal.appspot.com/o/maggie.jpg?alt=media&token=9b6a9e60-db88-42d5-a09e-32954bac2614";
-                simg = simg.replace("maggie", s).trim();
-
-                databaseReference.child("profilepic").setValue(" ");
-                databaseReference.child("profilepic").setValue(simg);
+                Photo = "https://firebasestorage.googleapis.com/v0/b/doitfinal.appspot.com/o/maggie.jpg?alt=media&token=9b6a9e60-db88-42d5-a09e-32954bac2614";
+                Photo = Photo.replace("maggie", s).trim();
 
 
                 /******************/
@@ -218,13 +232,22 @@ public class ProfileActivity extends AppCompatActivity {
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                        // ...
+
+                        databaseReference.child("Photo").setValue(Photo);
+                        Picasso.get()
+                                .load(Photo)
+                                .placeholder(R.drawable.imageforpicasso)
+                                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                                .into(imgprofile);
+                        SharedPreferences sp = getApplicationContext().getSharedPreferences("com.doit.PRIVATEDATA", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("photo",Photo);
+                        editor.apply();
+
                     }
                 });
 
 
-//                UploadTask uploadTask = mountainsRef.putBytes(dataa);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -234,26 +257,27 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    private void setdetails() {
-
-        sname = tname.getText().toString().trim();
-        smail = temail.getText().toString().trim();
-        spass = tpass.getText().toString().trim();
-        sdept = tdept.getText().toString().trim();
-        sadd = tadd.getText().toString().trim();
-        sdob = tdob.getText().toString().trim();
-        Log.v("logd", sname + smail + sdob + sdept + sadd + spass);
-        if ((!TextUtils.isEmpty(sname) && !TextUtils.isEmpty(smail) && !TextUtils.isEmpty(spass) && !TextUtils.isEmpty(sdept) && !TextUtils.isEmpty(sadd) && !TextUtils.isEmpty(sdob))) {
-            Log.v("logd--", sname + smail + sdob + sdept + sadd + spass);
-            databaseReference.child("Email").setValue(smail);
-            databaseReference.child("Name").setValue(sname);
-            databaseReference.child("Phone").setValue(spass);
-            databaseReference.child("DOB").setValue(sdob);
-            databaseReference.child("Dept").setValue(sdept);
-            databaseReference.child("Address").setValue(sadd);
+    private void
+    setdetails( String name, String phone, String address, String dob,String dept, String photo){
 
 
-        }
+        databaseReference.child("Photo").setValue(photo);
+        databaseReference.child("Address").setValue(address);
+        databaseReference.child("Phone").setValue(phone);
+        databaseReference.child("DOB").setValue(dob);
+        databaseReference.child("Dept").setValue(dept);
+        databaseReference.child("Name").setValue(name);
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("com.doit.PRIVATEDATA", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("name", name);
+        editor.putString("address", address);
+        editor.putString("phonenumber", phone);
+        editor.putString("dob", dob);
+        editor.putString("dept", dept);
+        editor.putString("photo",photo);
+        editor.apply();
+
         finish();
         startActivity(new Intent(ProfileActivity.this,WorkActivity.class));
 

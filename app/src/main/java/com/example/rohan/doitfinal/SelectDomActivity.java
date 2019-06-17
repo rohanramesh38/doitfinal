@@ -18,10 +18,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class SelectDomActivity extends AppCompatActivity {
-    DatabaseReference databaseReference;
+   private DatabaseReference databaseReference;
 
-    ArrayList<profile> list1;
-    RecyclerView recyclerView;
+   private ArrayList<profile> list1;
+   private RecyclerView recyclerView;
     @Override
     protected void onStart() {
         super.onStart();

@@ -1,10 +1,13 @@
 package com.example.rohan.doitfinal;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,8 +21,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,28 +36,31 @@ public class verification extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private EditText editText;
-    String mail;
+    private String Id,Address,Dob,Dept,Name;
+
+    private int lo=0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
+  //      fetchdata();
         mAuth = FirebaseAuth.getInstance();
 
         progressBar = findViewById(R.id.progressbar);
         editText = findViewById(R.id.editTextCode);
 
         String phonenumber = getIntent().getStringExtra("phonenumber");
-         mail=getIntent().getStringExtra("mailid");
         sendVerificationCode(phonenumber);
 
+
+
+       fetchdata();
         findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String code = editText.getText().toString().trim();
-
                 if (code.isEmpty() || code.length() < 6) {
 
                     editText.setError("Enter code...");
@@ -57,6 +68,7 @@ public class verification extends AppCompatActivity {
                     return;
                 }
                 verifyCode(code);
+
             }
         });
 
@@ -73,17 +85,9 @@ public class verification extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                            SharedPreferences.Editor editor = pref.edit();
-                            editor.putString("mail", mail);
+fetchdata();
 
-                            finish();
-                          String s= FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                            FirebaseDatabase.getInstance().getReference().child("Email").child(s).setValue(mail);
-                           Intent intent = new Intent(verification.this, WorkActivity.class);
-                        //    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                           startActivity(intent);
+                            new PrefetchData().execute();
 
                         } else {
                             Toast.makeText(verification.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -91,6 +95,49 @@ public class verification extends AppCompatActivity {
                     }
                 });
     }
+
+    private void fetchdata() {
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("com.doit.PRIVATEDATA", Context.MODE_PRIVATE);
+        if(sp.contains("id")) {
+
+
+    Id=sp.getString("id","");
+
+
+    FirebaseDatabase.getInstance().getReference().child("Students").child(Id).addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            SharedPreferences sp = getApplicationContext().getSharedPreferences("com.doit.PRIVATEDATA", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            UserData userData=dataSnapshot.getValue(UserData.class);
+            editor.putString("address",userData.getAddress());
+            editor.putString("dob",userData.getDOB());
+            editor.putString("dept",userData.getDept());
+            editor.putString("name",userData.getName());
+            editor.putString("phonenumber",userData.getPhone());
+            editor.putString("photo",userData.getPhoto());
+            editor.apply();
+
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    });
+               }
+
+
+            }
+
+
+
+
+
+
+
 
     private void sendVerificationCode(String number) {
         progressBar.setVisibility(View.VISIBLE);
@@ -127,4 +174,52 @@ public class verification extends AppCompatActivity {
             Toast.makeText(verification.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
+
+
+    private class PrefetchData extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // before making http calls
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            /*
+             * Will make http call here This call will download required data
+             * before launching the app
+             * example:
+             * 1. Downloading and storing in SQLite
+             * 2. Downloading images
+             * 3. Fetching and parsing the xml / json
+             * 4. Sending device information to server
+             * 5. etc.,
+             */
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // After completing http call
+            // will close this activity and lauch main activity
+
+
+            Intent intent = new Intent(verification.this, WorkActivity.class);
+           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+
+            // close this activity
+
+        }
+
+    }
+
+
+
+
 }

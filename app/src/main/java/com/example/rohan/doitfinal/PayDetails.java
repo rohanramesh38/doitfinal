@@ -24,7 +24,7 @@ import org.json.JSONObject;
 public class PayDetails extends AppCompatActivity implements  PaymentResultListener {
     private static final String TAG = PayDetails.class.getSimpleName();
 
-    String schoice,sdomain,sloc,smethod;
+    String schoice,sdomain,sloc,smethod,snew;
     TextView tchoice,tdomain,tloc,tmethod,tnew,told;
 Button bt;
     DatabaseReference databaseReference;
@@ -41,6 +41,7 @@ databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 
        told.setText(s[0]);
        tnew.setText(s[1]);
+        snew=s[1];
     }
 
     @Override
@@ -95,60 +96,62 @@ bt.setOnClickListener(new View.OnClickListener() {
         /*
           You need to pass current activity in order to let Razorpay create CheckoutActivity
          */
-        final Activity activity = this;
 
-        final Checkout co = new Checkout();
+            final Activity activity = this;
 
-        try {
-            JSONObject options = new JSONObject();
-            options.put("name", "Razorpay Corp");
-            options.put("description", "Demoing Charges");
-            //You can omit the image option to fetch the image from dashboard
-            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-            options.put("currency", "INR");
-            options.put("amount", "100");
+            final Checkout co = new Checkout();
 
-            JSONObject preFill = new JSONObject();
-            preFill.put("email", "we.beyond.horizons@doit.com");
-            preFill.put("contact", "1230984567");
+            try {
+                JSONObject options = new JSONObject();
+                options.put("name", "Doit Corp");
+                options.put("description", schoice+" course "+sdomain);
+                //You can omit the image option to fetch the image from dashboard
+                options.put("image", "https://lh3.googleusercontent.com/CJNJ3_nBPQjsAUHUz-WJu-kXNcSrbkgN5kcR0Zb0FfECgfCDMGSs4gGhFYVNpmHbuA");
+                options.put("currency", "INR");
+                options.put("amount", snew+"00");
 
-            options.put("prefill", preFill);
+                JSONObject preFill = new JSONObject();
+                preFill.put("email", "we.beyond.horizons@doit.com");
+                preFill.put("contact", "1230984567");
 
-            co.open(activity, options);
-        } catch (Exception e) {
-            Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT)
-                    .show();
-            e.printStackTrace();
+                options.put("prefill", preFill);
+
+                co.open(activity, options);
+            } catch (Exception e) {
+                Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT)
+                        .show();
+                e.printStackTrace();
+            }
         }
-    }
 
-    /**
-     * The name of the function has to be
-     * onPaymentSuccess
-     * Wrap your code in try catch, as shown, to ensure that this method runs correctly
-     */
-    @SuppressWarnings("unused")
-    @Override
-    public void onPaymentSuccess(String razorpayPaymentID) {
-        try {
-            Toast.makeText(this, "Payment Successful: " + razorpayPaymentID, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Log.e(TAG, "Exception in onPaymentSuccess", e);
+        /**
+         * The name of the function has to be
+         * onPaymentSuccess
+         * Wrap your code in try catch, as shown, to ensure that this method runs correctly
+         */
+        @SuppressWarnings("unused")
+        @Override
+        public void onPaymentSuccess (String razorpayPaymentID){
+            try {
+                Toast.makeText(this, "Payment Successful: " + razorpayPaymentID, Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e(TAG, "Exception in onPaymentSuccess", e);
+            }
         }
-    }
 
-    /**
-     * The name of the function has to be
-     * onPaymentError
-     * Wrap your code in try catch, as shown, to ensure that this method runs correctly
-     */
-    @SuppressWarnings("unused")
-    @Override
-    public void onPaymentError(int code, String response) {
-        try {
-            Toast.makeText(this, "Payment failed: " + code + " " + response, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Log.e(TAG, "Exception in onPaymentError", e);
+        /**
+         * The name of the function has to be
+         * onPaymentError
+         * Wrap your code in try catch, as shown, to ensure that this method runs correctly
+         */
+        @SuppressWarnings("unused")
+        @Override
+        public void onPaymentError ( int code, String response){
+            try {
+                Toast.makeText(this, "Payment failed: " + code + " " + response, Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e(TAG, "Exception in onPaymentError", e);
+            }
         }
-    }
+
 }

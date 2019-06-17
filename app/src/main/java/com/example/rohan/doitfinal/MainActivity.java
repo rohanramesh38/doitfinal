@@ -24,16 +24,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99 ;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION_COARSE = 101;
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 123;
     private static final int MY_PERMISSIONS_REQUEST_STORAGE_READ =143 ;
-    EditText tEmail,tPassword;
-    TextView btnRegister;
-    Button btnLogin,btnOption;
-    DatabaseReference databaseReference;
+  private EditText tEmail,tPassword;
+   private TextView btnRegister;
+   private Button btnLogin,btnOption;
+    private DatabaseReference databaseReference,db1;
+    private int lo=0;
+    private String Id="";
 
 
 
@@ -47,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         btnRegister= findViewById(R.id.newUser);
         PermissionsCheck();
 
-       // btnOption=(Button)findViewById(R.id.button);
+
+        // btnOption=(Button)findViewById(R.id.button);
         databaseReference= FirebaseDatabase.getInstance().getReference("Students");
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null)
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                logIn(tEmail.getText().toString(),pwd);
+                logIn(tEmail.getText().toString().trim(),pwd);
             }
         });
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -89,18 +94,22 @@ public class MainActivity extends AppCompatActivity {
                         if(Security.decrypt((dataSnapshot.child(memail.replace(".","_")).child("password")).getValue().toString()).equals(mpassword))
                         {
 
-                            SharedPreferences settings = getSharedPreferences("mysettings", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putString("mymail", memail);
-                            editor.commit();
 
-                            Toast.makeText(MainActivity.this,"Proceed Login",Toast.LENGTH_LONG).show();
-                            Intent intphto =new Intent(getApplicationContext(),otp.class);
-                            finish();
-                            intphto.putExtra("mailid",memail);
+                            SharedPreferences sp = getApplicationContext().getSharedPreferences("com.doit.PRIVATEDATA", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("id", memail.replace(".","_"));
+                            editor.putString("email",memail);
+                            editor.apply();
 
 
-                            startActivity(intphto);
+                                Toast.makeText(MainActivity.this,"Proceed Login",Toast.LENGTH_LONG).show();
+                                Intent intphto =new Intent(getApplicationContext(),otp.class);
+                                finish();
+
+                                startActivity(intphto);
+
+
+
                         }
 
                     } catch (Exception e) {
@@ -122,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
 

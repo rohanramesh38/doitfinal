@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#FFFFFF"
-    android:layout_weight="2"
-    >
+    android:layout_weight="2">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -48,11 +50,15 @@
                         />
 
                 </LinearLayout>
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/blankpo"
+                    android:src="@drawable/imageforpicasso"
                     android:gravity="bottom"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    app:civ_border_width="1dp"
+                    app:civ_border_color="#FFFFFF"
                     android:id="@+id/profilepic"
                     />
                 <LinearLayout
@@ -99,7 +105,7 @@
                 >
                 <TextView
                     android:layout_weight="1"
-                    android:id="@+id/usrusr"
+
                     android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,14 +119,14 @@
                     />
                 <EditText
                     android:layout_weight="1"
-                    android:id="@+id/ususr"
+                    android:id="@+id/name"
                     android:textSize="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Anonymous"
                     android:textColorHint="#181737"
                     android:textColor="#181737"
-                    android:maxLength="12"
+                    android:maxLength="22"
                     android:background="#0000"
                     android:padding="16dp"
                     android:gravity="left"
@@ -137,19 +143,19 @@
                 >
                 <TextView
                     android:layout_weight="1"
-                    android:id="@+id/mail"
+
                     android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Email"
                     android:textColor="#a2a1b8"
-                    android:maxLength="12"
+                    android:maxLength="22"
                     android:background="#0000"
                     android:padding="16dp"
                     android:gravity="center"/>
-                <EditText
+                <TextView
                     android:layout_weight="1"
-                    android:id="@+id/maill"
+                    android:id="@+id/mail"
                     android:textSize="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -173,7 +179,6 @@
                 >
                 <TextView
                     android:layout_weight="1"
-                    android:id="@+id/pswrd"
                     android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,7 +191,7 @@
                     />
                 <EditText
                     android:layout_weight="1"
-                    android:id="@+id/pswrdd"
+                    android:id="@+id/phone"
                     android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -231,9 +236,9 @@
                     android:layout_height="wrap_content"
                     android:textColorHint="#1b193b"
                     android:inputType="phone"
-                    android:text="00/00/00"
+                    android:text="00-00-0000"
                     android:textColor="#181737"
-                    android:maxLength="16"
+                    android:maxLength="10"
                     android:background="#0000"
                     android:padding="16dp"
                     android:typeface="serif"
@@ -256,7 +261,7 @@
                     android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dept-sec"
+                    android:text="Dept"
                     android:textColor="#a2a1b8"
                     android:maxLength="12"
                     android:background="#0000"
@@ -271,9 +276,9 @@
                     android:layout_height="wrap_content"
                     android:textColorHint="#1b193b"
                     android:inputType="textCapCharacters"
-                    android:text="CSE-A"
+                    android:text="Dept"
                     android:textColor="#181737"
-                    android:maxLength="16"
+                    android:maxLength="26"
                     android:background="#0000"
                     android:padding="16dp"
                     android:gravity="left"
@@ -294,7 +299,7 @@
                     android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="College"
+                    android:text="Address"
                     android:textColor="#a2a1b8"
                     android:maxLength="12"
                     android:background="#0000"
@@ -309,9 +314,8 @@
                     android:layout_height="wrap_content"
                     android:textColorHint="#1b193b"
                     android:inputType="textCapSentences"
-                    android:text="Address line"
+                    android:text="Address not found"
                     android:textColor="#181737"
-
                     android:background="#0000"
                     android:padding="16dp"
                     android:typeface="serif"
@@ -337,17 +341,19 @@
         </LinearLayout>
 
         <Button
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Save Profile"
             android:gravity="center"
             android:id="@+id/butsave"
+            android:textColor="#fff"
+            android:background="@color/colorPrimary"
             android:padding="10dp"
             android:layout_gravity="center"
             />
 
     </LinearLayout>
+    </RelativeLayout>
 
 
-
-</RelativeLayout>
+</ScrollView>

@@ -8,7 +8,9 @@
     tools:context=".FirstFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
  <RelativeLayout
      android:layout_width="match_parent"
      android:background="#fff"
@@ -69,7 +71,8 @@
              android:textAllCaps="false"
              android:textColor="#ffffff"
              android:id="@+id/train"
-             android:background="#FFAE42"
+             android:layout_marginBottom="30dp"
+             android:background="#ffd11a"
              android:text="Training"/>
 
      </LinearLayout>
@@ -84,5 +87,5 @@
        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
        />
  </RelativeLayout>
-
+</ScrollView>
 </FrameLayout>
